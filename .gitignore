@@ -1,7 +1,8 @@
 # Dependencies
 node_modules/
 .env
-db.js
+/db.js
+!src/config/db.js
 *__pycache__*
 
 # Python virtual environments
