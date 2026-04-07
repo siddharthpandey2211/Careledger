@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+.env
+db.js
+*__pycache__*
+
+# Python virtual environments
+.venv/
+.venv311/
+venv/
+
+# OCR uploads
+OCR_processor/uploads/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
