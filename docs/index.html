@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CareLedger</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="bg-orb orb-a"></div>
+  <div class="bg-orb orb-b"></div>
+  <main class="app-shell">
+    <header class="app-header">
+      <div class="header-left">
+        <p class="eyebrow">CareLedger</p>
+        <nav class="workspace-header-menu hidden" id="workspace-header-menu">
+          <button type="button" data-workspace="connection">Connection</button>
+          <button type="button" data-workspace="patient">Patient</button>
+          <button id="menu-get-patient-profile-btn" type="button" class="ghost hidden patient-menu-action">Get Own Profile</button>
+          <button id="menu-get-patient-consultations-btn" type="button" class="ghost hidden patient-menu-action">Get Own Consultations</button>
+          <button id="menu-get-patient-access-list-btn" type="button" class="ghost hidden patient-menu-action">Get Access List</button>
+          <button type="button" data-workspace="doctor" class="ghost">Doctor</button>
+          <button type="button" data-workspace="consultations" class="ghost">Consultations</button>
+          <button type="button" data-workspace="clinics" class="ghost">Clinics</button>
+          <button type="button" data-workspace="medications" class="ghost">Medications</button>
+          <button type="button" data-workspace="admin" class="ghost">Admin</button>
+        </nav>
+      </div>
+      <div class="header-right">
+        <div class="pill" id="auth-state-pill">Auth: Required</div>
+      </div>
+    </header>
+
+    <section class="panel hidden workspace-panel" id="connection-panel" data-workspace-panel="connection">
+      <h2>Connection</h2>
+      <p class="hint">Login is complete. Save Token here to continue to your workspace (patient/doctor/admin).</p>
+      <div class="grid two">
+        <label>
+          API Base URL
+          <input id="api-base" type="text" value="http://localhost:3000/api" />
+        </label>
+        <label>
+          Health URL
+          <input id="health-url" type="text" value="http://localhost:3000/health" />
+        </label>
+      </div>
+      <label>
+        Bearer Token
+        <input id="token-input" type="text" placeholder="Paste JWT token here" />
+      </label>
+      <div class="row">
+        <button id="save-token-btn">Save Token</button>
+        <button id="clear-token-btn" class="ghost">Clear Token</button>
+        <button id="switch-account-btn" class="ghost" type="button">Switch Account</button>
+        <button id="check-health-btn" class="ghost">Check Server Health</button>
+      </div>
+    </section>
+
+    <section class="panel" id="auth-panel">
+      <div class="auth-panel-header">
+        <h2>Authentication</h2>
+      </div>
+      <p class="hint">First create an account using Sign Up. If you already Signed up, choose Login.</p>
+      <div class="row auth-toggle-row">
+        <button id="show-signup-btn" type="button">Sign Up</button>
+        <button id="show-login-btn" type="button" class="ghost">Login</button>
+      </div>
+      <div class="row hidden" id="saved-session-row">
+        <button id="use-saved-session-btn" type="button" class="ghost">Use Saved Session</button>
+      </div>
+      <div class="grid two">
+        <form id="signup-form" class="stacked">
+          <h3>Sign Up</h3>
+          <input name="email" type="email" placeholder="email" required />
+          <input name="phone" type="text" placeholder="phone" required />
+          <input name="plain_password" type="password" placeholder="password" required />
+          <select name="role" required>
+            <option value="patient">patient</option>
+            <option value="doctor">doctor</option>
+            <option value="admin">admin</option>
+          </select>
+          <button type="submit">Create User</button>
+        </form>
+
+        <form id="login-form" class="stacked hidden">
+          <h3>Login</h3>
+          <select name="login_with" id="login-with" required>
+            <option value="email">Login with Email</option>
+            <option value="phone">Login with Phone Number</option>
+          </select>
+          <input id="login-email-input" name="email" type="email" placeholder="email" />
+          <input id="login-phone-input" name="phone" type="text" placeholder="phone" class="hidden" />
+          <input name="plain_password" type="password" placeholder="password" required />
+          <select name="role" required>
+            <option value="patient">patient</option>
+            <option value="doctor">doctor</option>
+            <option value="admin">admin</option>
+          </select>
+          <button type="submit">Login</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="panel hidden workspace-panel" id="patient-workspace-panel" data-workspace-panel="patient">
+      <div class="workspace-panel-header">
+        <h2>Patient Workspace</h2>
+        <button id="show-update-patient-btn" class="ghost hidden" type="button">Update Patient Profile</button>
+      </div>
+      <p class="hint">Create your patient profile first. If you already have one, use the actions below.</p>
+      <section id="patient-profile-details" class="profile-details hidden">
+        <h3>Profile Details</h3>
+        <div class="profile-details-grid">
+          <div><span class="profile-label">Full Name</span><span id="patient-detail-full_name">-</span></div>
+          <div><span class="profile-label">Health ID</span><span id="patient-detail-health_id">-</span></div>
+          <div><span class="profile-label">Date of Birth</span><span id="patient-detail-date_of_birth">-</span></div>
+          <div><span class="profile-label">Gender</span><span id="patient-detail-gender">-</span></div>
+          <div><span class="profile-label">Blood Group</span><span id="patient-detail-blood_group">-</span></div>
+          <div><span class="profile-label">Email</span><span id="patient-detail-email">-</span></div>
+          <div><span class="profile-label">Phone</span><span id="patient-detail-phone">-</span></div>
+        </div>
+      </section>
+      <div class="grid two">
+        <form id="create-patient-form" class="stacked">
+          <h3>Create Patient Profile</h3>
+          <input name="full_name" type="text" placeholder="full_name" required />
+          <div style="display: flex; gap: 10px; align-items: flex-end;">
+            <input name="health_id" type="text" placeholder="health_id" required />
+            <button type="button" id="generate-health-id-btn" style="white-space: nowrap; flex-shrink: 0;">Generate Health ID</button>
+          </div>
+          <input name="date_of_birth" type="date" placeholder="date_of_birth" />
+          <select name="gender">
+            <option value="">gender</option>
+            <option value="male">male</option>
+            <option value="female">female</option>
+            <option value="other">other</option>
+          </select>
+          <input name="blood_group" type="text" placeholder="blood_group" />
+          <button type="submit">Create Profile</button>
+        </form>
+
+        <form id="update-patient-form" class="stacked hidden">
+          <h3>Update Patient Profile</h3>
+          <input name="full_name" type="text" placeholder="full_name" />
+          <input name="date_of_birth" type="date" placeholder="date_of_birth" />
+          <select name="gender">
+            <option value="">gender</option>
+            <option value="male">male</option>
+            <option value="female">female</option>
+            <option value="other">other</option>
+          </select>
+          <input name="blood_group" type="text" placeholder="blood_group" />
+          <button type="submit">Update Profile</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="panel hidden workspace-panel" id="doctor-workspace-panel" data-workspace-panel="doctor">
+      <div class="workspace-panel-header">
+        <h2>Doctor Workspace</h2>
+        <div class="workspace-panel-actions">
+          <button id="show-update-doctor-btn" type="button" class="ghost hidden">Update Doctor Profile</button>
+          <button id="doctor-lookup-shortcut-btn" type="button" class="ghost hidden">Doctor Lookup</button>
+          <button id="doctor-emergency-shortcut-btn" type="button" class="ghost hidden">Emergency Patient Snapshot</button>
+        </div>
+      </div>
+      <p class="hint">Doctor-specific profile, consultation, and emergency tools.</p>
+      <section id="doctor-profile-details" class="profile-details hidden">
+        <h3>Profile Details</h3>
+        <div class="profile-details-grid">
+          <div><span class="profile-label">Full Name</span><span id="doctor-detail-full_name">-</span></div>
+          <div><span class="profile-label">License Number</span><span id="doctor-detail-license_number">-</span></div>
+          <div><span class="profile-label">Specialization</span><span id="doctor-detail-specialization">-</span></div>
+        </div>
+      </section>
+      <div class="grid two">
+        <form id="create-doctor-form" class="stacked">
+          <h3>Create Doctor Profile</h3>
+          <input name="full_name" type="text" placeholder="full_name" required />
+          <input name="license_number" type="text" placeholder="license_number" required />
+          <input name="specialization" type="text" placeholder="specialization" />
+          <button type="submit">Create Doctor Profile</button>
+        </form>
+
+        <form id="update-doctor-form" class="stacked hidden">
+          <h3>Update Doctor Profile</h3>
+          <input name="full_name" type="text" placeholder="full_name" />
+          <input name="specialization" type="text" placeholder="specialization" />
+          <button type="submit">Update Doctor Profile</button>
+        </form>
+
+        <div id="doctor-lookup-section" class="stacked hidden">
+          <h3>Doctor Lookup</h3>
+          <input id="doctor-id-input" type="text" placeholder="doctor id" />
+          <button id="get-doctor-by-id-btn" type="button" class="ghost">Get Doctor By ID</button>
+        </div>
+
+        <form id="doctor-emergency-form" class="stacked hidden" data-section="doctor-emergency">
+          <h3>Emergency Patient Snapshot</h3>
+          <input name="patientId" type="text" placeholder="patientId" required />
+          <input name="clinicId" type="text" placeholder="clinicId" required />
+          <button type="submit">Fetch Emergency Data</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="panel hidden workspace-panel" id="consultation-workspace-panel" data-workspace-panel="consultations">
+      <div class="workspace-panel-header">
+        <h2>Consultations</h2>
+        <div class="workspace-panel-actions">
+          <button id="consultation-status-shortcut-btn" type="button" class="ghost">Update Consultation Status</button>
+          <button id="consultation-prescription-shortcut-btn" type="button" class="ghost">Upsert Prescription</button>
+          <button id="consultation-get-prescription-shortcut-btn" type="button" class="ghost">Get Prescription</button>
+        </div>
+      </div>
+      <p class="hint">Start consultations, update their status, and manage prescriptions.</p>
+      <div class="grid two">
+        <form id="start-consultation-form" class="stacked">
+          <h3>Start Consultation</h3>
+          <input name="patient_id" type="text" placeholder="patient_id" required />
+          <button type="submit">Start Consultation</button>
+        </form>
+
+        <form id="get-consultation-form" class="stacked">
+          <h3>Get Consultation</h3>
+          <input name="consultationId" type="text" placeholder="consultationId" required />
+          <button type="submit">Load Consultation</button>
+        </form>
+
+        <form id="update-consultation-status-form" class="stacked hidden">
+          <h3>Update Consultation Status</h3>
+          <input name="consultationId" type="text" placeholder="consultationId" required />
+          <select name="status" required>
+            <option value="in_progress">in_progress</option>
+            <option value="completed">completed</option>
+          </select>
+          <button type="submit">Update Status</button>
+        </form>
+
+        <form id="prescription-form" class="stacked hidden">
+          <h3>Upsert Prescription</h3>
+          <input name="consultationId" type="text" placeholder="consultationId" required />
+          <textarea name="items_json" rows="8" placeholder='[{"drug_name":"Paracetamol","dosage":"500mg","frequency":"2 times daily","duration_days":5}]' required></textarea>
+          <button type="submit">Save Prescription</button>
+        </form>
+
+        <form id="get-prescription-form" class="stacked hidden">
+          <h3>Get Prescription</h3>
+          <input name="consultationId" type="text" placeholder="consultationId" required />
+          <button type="submit">Load Prescription</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="panel hidden workspace-panel" id="clinics-workspace-panel" data-workspace-panel="clinics">
+      <div class="workspace-panel-header">
+        <h2>Clinics</h2>
+        <div class="workspace-panel-actions">
+          <button id="clinic-lookup-shortcut-btn" type="button" class="ghost">Clinic Lookup</button>
+          <button id="clinic-update-shortcut-btn" type="button" class="ghost">Update Clinic</button>
+        </div>
+      </div>
+      <p class="hint">Manage clinic records for a verified doctor account.</p>
+      <div class="grid two">
+        <form id="create-clinic-form" class="stacked">
+          <h3>Create Clinic</h3>
+          <input name="clinicName" type="text" placeholder="clinicName" required />
+          <input name="address" type="text" placeholder="address" required />
+          <input name="logoURL" type="text" placeholder="logoURL" />
+          <input name="email" type="email" placeholder="email" required />
+          <input name="phone" type="text" placeholder="phone" required />
+          <button type="submit">Create Clinic</button>
+        </form>
+
+        <div id="clinic-lookup-section" class="stacked hidden">
+          <h3>Clinic Lookup</h3>
+          <input id="clinic-id-input" type="text" placeholder="clinic id" />
+          <button id="get-clinics-btn" type="button" class="ghost">Get All Clinics</button>
+          <button id="get-clinic-by-id-btn" type="button" class="ghost">Get Clinic By ID</button>
+          <button id="delete-clinic-btn" type="button" class="ghost">Delete Clinic By ID</button>
+        </div>
+
+        <form id="update-clinic-form" class="stacked hidden">
+          <h3>Update Clinic</h3>
+          <input name="clinicId" type="text" placeholder="clinicId" required />
+          <input name="clinicName" type="text" placeholder="clinicName" />
+          <input name="address" type="text" placeholder="address" />
+          <input name="logoURL" type="text" placeholder="logoURL" />
+          <input name="email" type="email" placeholder="email" />
+          <input name="phone" type="text" placeholder="phone" />
+          <button type="submit">Update Clinic</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="panel hidden workspace-panel" id="medications-workspace-panel" data-workspace-panel="medications">
+      <div class="workspace-panel-header">
+        <h2>Medications</h2>
+        <div class="workspace-panel-actions">
+          <button id="medication-add-shortcut-btn" type="button" class="ghost medication-add-shortcut" aria-label="Add medication for another user">+</button>
+          <button id="medication-lookup-shortcut-btn" type="button" class="ghost">Medication Lookup</button>
+          <button id="medication-update-shortcut-btn" type="button" class="ghost">Update Medication</button>
+        </div>
+      </div>
+      <p class="hint">View and manage active medications for a patient record.</p>
+      <div class="grid two">
+        <form id="create-medication-form" class="stacked">
+          <h3>Add Medication</h3>
+          <input name="user_id" type="text" placeholder="user_id" required />
+          <input name="name" type="text" placeholder="name" required />
+          <input name="dosage" type="text" placeholder="dosage" required />
+          <input name="prescibed_for" type="text" placeholder="prescibed_for" required />
+          <input name="prescibed_at" type="date" placeholder="prescibed_at" required />
+          <button type="submit">Add Medication</button>
+        </form>
+
+        <div id="medication-lookup-section" class="stacked hidden">
+          <h3>Medication Lookup</h3>
+          <input id="medication-user-id-input" type="text" placeholder="user id" />
+          <input id="medication-id-input" type="text" placeholder="medication id for update/delete" />
+          <button id="get-my-medications-btn" type="button" class="ghost">Get My Medications</button>
+          <button id="get-medications-by-user-btn" type="button" class="ghost">Get Medications By User</button>
+          <button id="delete-medication-btn" type="button" class="ghost">Delete Medication</button>
+        </div>
+
+        <form id="update-medication-form" class="stacked hidden">
+          <h3>Update Medication</h3>
+          <input name="medicationId" type="text" placeholder="medicationId" required />
+          <input name="name" type="text" placeholder="name" />
+          <input name="dosage" type="text" placeholder="dosage" />
+          <input name="prescibed_for" type="text" placeholder="prescibed_for" />
+          <input name="prescibed_at" type="date" placeholder="prescibed_at" />
+          <button type="submit">Update Medication</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="panel hidden workspace-panel" id="admin-workspace-panel" data-workspace-panel="admin">
+      <h2>Admin</h2>
+      <p class="hint">Admin-only controls for doctor verification.</p>
+      <div class="grid two">
+        <form id="verify-doctor-form" class="stacked">
+          <h3>Verify Doctor</h3>
+          <input name="doctorId" type="text" placeholder="doctorId" required />
+          <button type="submit">Verify Doctor</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="panel output">
+      <h2>Response</h2>
+      <pre id="output">No requests yet.</pre>
+    </section>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>

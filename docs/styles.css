@@ -1,0 +1,398 @@
+:root {
+  --bg-0: #f5efe3;
+  --bg-1: #f0dcb2;
+  --ink: #212121;
+  --ink-soft: #4a4a4a;
+  --accent: #c24f2f;
+  --accent-deep: #8d321a;
+  --card: rgba(255, 255, 255, 0.86);
+  --border: rgba(33, 33, 33, 0.14);
+  --shadow: 0 16px 38px rgba(31, 22, 8, 0.14);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Space Grotesk", sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 8% 20%, var(--bg-1), transparent 40%),
+    radial-gradient(circle at 90% 10%, #ffd9b8, transparent 45%),
+    linear-gradient(160deg, var(--bg-0), #efe7da);
+  overflow-x: hidden;
+}
+
+.bg-orb {
+  position: fixed;
+  border-radius: 999px;
+  filter: blur(45px);
+  z-index: -1;
+  opacity: 0.4;
+}
+
+.orb-a {
+  width: 280px;
+  height: 280px;
+  background: #e66f39;
+  top: -80px;
+  right: -40px;
+}
+
+.orb-b {
+  width: 300px;
+  height: 300px;
+  background: #ffcc73;
+  bottom: -120px;
+  left: -80px;
+}
+
+.app-shell {
+  width: min(1080px, 94vw);
+  margin: 2rem auto 4rem;
+  display: grid;
+  gap: 1rem;
+  animation: rise 0.65s ease;
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.header-left {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.header-right {
+  display: grid;
+  gap: 0.45rem;
+  justify-items: end;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--accent-deep);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: clamp(1.25rem, 3.4vw, 2.1rem);
+  line-height: 1.05;
+}
+
+h1 {
+  margin: 0.2rem 0 0;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+}
+
+.subtext {
+  margin: 0.4rem 0 0;
+  color: var(--ink-soft);
+}
+
+.panel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: 1rem;
+  backdrop-filter: blur(4px);
+}
+
+.hidden {
+  display: none !important;
+}
+
+h2 {
+  margin-top: 0;
+  margin-bottom: 0.85rem;
+}
+
+.workspace-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.workspace-panel-header h2 {
+  margin-bottom: 0;
+}
+
+.workspace-panel-actions {
+  display: grid;
+  gap: 0.45rem;
+  justify-items: end;
+}
+
+.medication-add-shortcut {
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.auth-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.auth-panel-header h2 {
+  margin-bottom: 0;
+}
+
+h3 {
+  margin: 0;
+}
+
+.grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.grid.two {
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 0.7rem;
+}
+
+.profile-details {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.8rem;
+  background: rgba(255, 255, 255, 0.66);
+  margin-bottom: 0.85rem;
+}
+
+.profile-details-grid {
+  display: grid;
+  gap: 0.55rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.profile-details-grid div {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.45rem 0.55rem;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid var(--border);
+}
+
+.profile-label {
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.workspace-tabs {
+  margin-top: 0.25rem;
+}
+
+.workspace-header-menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.workspace-header-menu button {
+  padding: 0.45rem 0.72rem;
+  font-size: 0.88rem;
+}
+
+.workspace-tabs button.active {
+  background: linear-gradient(130deg, var(--accent-deep), var(--accent));
+  color: #fff;
+  border-color: transparent;
+}
+
+.workspace-header-menu button.active,
+.workspace-tabs button.active.ghost {
+  background: linear-gradient(130deg, var(--accent-deep), var(--accent));
+  color: #fff;
+  border-color: transparent;
+}
+
+.auth-toggle-row {
+  margin-top: 0;
+  margin-bottom: 0.8rem;
+}
+
+label {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+
+input,
+select,
+textarea,
+button {
+  font: inherit;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.62rem 0.7rem;
+  background: #fff;
+}
+
+textarea {
+  resize: vertical;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.88rem;
+  min-height: 120px;
+}
+
+button {
+  border: 0;
+  border-radius: 10px;
+  padding: 0.62rem 0.84rem;
+  background: linear-gradient(130deg, var(--accent), #db733f);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.12s ease, filter 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.03);
+}
+
+button.ghost {
+  background: #fff;
+  color: var(--ink);
+  border: 1px solid var(--border);
+}
+
+.stacked {
+  display: grid;
+  gap: 0.55rem;
+  align-content: start;
+}
+
+.pill {
+  border: 1px solid var(--border);
+  padding: 0.45rem 0.72rem;
+  border-radius: 999px;
+  background: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.pill.ready {
+  color: #1f6b2a;
+  border-color: rgba(31, 107, 42, 0.25);
+}
+
+.pill.loading {
+  color: #b36300;
+  border-color: rgba(179, 99, 0, 0.3);
+}
+
+.pill.failed {
+  color: #941b1b;
+  border-color: rgba(148, 27, 27, 0.28);
+}
+
+.hint {
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  margin-bottom: 0;
+}
+
+.output pre {
+  margin: 0;
+  white-space: pre-wrap;
+  background: #111;
+  color: #f1f1f1;
+  border-radius: 12px;
+  padding: 1rem;
+  min-height: 180px;
+  max-height: 450px;
+  overflow: auto;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.84rem;
+}
+
+@media (max-width: 680px) {
+  .app-header {
+    flex-direction: column;
+  }
+
+  .header-right {
+    justify-items: stretch;
+    width: 100%;
+  }
+
+  .workspace-header-menu button {
+    flex: 1 1 100%;
+  }
+
+  .auth-panel-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .auth-panel-header button {
+    width: 100%;
+  }
+
+  .workspace-panel-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .workspace-panel-header button {
+    width: 100%;
+  }
+
+  .workspace-panel-actions {
+    width: 100%;
+    justify-items: stretch;
+  }
+
+  .workspace-tabs button {
+    flex: 1 1 100%;
+  }
+
+  .app-shell {
+    margin-top: 1rem;
+  }
+}
