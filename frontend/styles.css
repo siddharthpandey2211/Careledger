@@ -355,11 +355,6 @@ button.ghost {
   display: none !important;
 }
 
-#connection-panel,
-.workspace-header-menu [data-workspace='connection'] {
-  display: none !important;
-}
-
 @media (max-width: 680px) {
   .app-header {
     flex-direction: column;

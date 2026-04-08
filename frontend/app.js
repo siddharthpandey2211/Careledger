@@ -23,9 +23,9 @@ const GUEST_ROLE = 'doctor';
 const TOKEN_KEY = 'careledger_token';
 const DEFAULT_WORKSPACE = 'connection';
 const ROLE_WORKSPACES = {
-  patient: ['patient'],
-  doctor: ['doctor', 'consultations', 'clinics', 'medications'],
-  admin: ['admin'],
+  patient: ['connection', 'patient'],
+  doctor: ['connection', 'doctor', 'consultations', 'clinics', 'medications'],
+  admin: ['connection', 'admin'],
 };
 
 function pretty(value) {
