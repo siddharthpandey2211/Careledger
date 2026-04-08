@@ -1,36 +1,36 @@
-# CareLedger
+# CareLedger - Frontend
 
-CareLedger is a simple healthcare record and care-management demo.
+This is the frontend for CareLedger, a healthcare management system.
 
-The name means:
-- Care: the focus is on medical and patient care
-- Ledger: a structured record or log
+## Setup Instructions
 
-So CareLedger is meant to be a place for organizing healthcare information in one place.
+### Running Locally
+1. Start the backend server: `node server.js`
+2. Visit `http://localhost:3000` in your browser
+3. The app will automatically connect to your local backend
 
-## Public site
+### Using the GitHub Pages Version
+Since GitHub Pages only hosts static files, you'll need to:
+1. Run the backend server locally: `node server.js` (it will run on `http://localhost:3000`)
+2. Visit the GitHub Pages URL: https://siddharthpandey2211.github.io/Careledger/
+3. In the **Connection** panel, the API Base URL will default to `http://localhost:3000/api`
+4. Click **Check Health** to verify the connection
 
-This docs site is a static public version that can be hosted on GitHub Pages without a backend, database, or login service.
+### For Production Deployment
+To fully deploy this as a live application:
+1. **Deploy the backend** to a cloud platform (Heroku, Railway, Render, etc.)
+2. **Update the API Base URL** in the frontend to your backend's production URL
+3. The frontend will automatically work with your deployed backend
 
-## What you will see
+### Features
+- **Patient Portal**: View prescriptions, consultations, and health information
+- **Doctor Portal**: Manage patients and prescriptions  
+- **Admin Panel**: Administer system settings
+- **Authentication**: Secure login with JWT tokens
+- **Prescription Management**: Track active medications and allergies
 
-- A public landing page
-- A short explanation of the project
-- A lightweight demo experience stored only in the browser
-
-## Important note
-
-The original app was built around authentication, backend APIs, PostgreSQL, and OCR features. Those parts are not needed for the static public version and were removed so the site can load reliably from a link.
-
-## Local use
-
-If you run the project locally, it serves the same static site from the root server entrypoint.
-
-## If you want the full system back later
-
-You can always restore:
-- the Node.js backend
-- the database layer
-- the OCR processing service
-
-This README is meant to tell visitors what CareLedger stands for and why the site is now public and simple to access.
+## Technology Stack
+- **Frontend**: Vanilla JavaScript, HTML, CSS
+- **Backend**: Node.js, Express.js
+- **Database**: PostgreSQL
+- **Authentication**: JWT (JSON Web Tokens)
