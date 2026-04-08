@@ -351,6 +351,10 @@ button.ghost {
   font-size: 0.84rem;
 }
 
+.output {
+  display: none !important;
+}
+
 @media (max-width: 680px) {
   .app-header {
     flex-direction: column;
