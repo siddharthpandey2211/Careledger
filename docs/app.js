@@ -33,6 +33,9 @@ function pretty(value) {
 }
 
 function writeOutput(title, data) {
+  if (!output) {
+    return;
+  }
   const now = new Date().toLocaleString();
   output.textContent = `[${now}] ${title}\n\n${typeof data === 'string' ? data : pretty(data)}`;
 }
