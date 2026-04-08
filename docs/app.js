@@ -336,8 +336,8 @@ function initAuth() {
 
       tokenConfirmed = false;
       tokenConfirmed = true;
-      setAuthState(true);
-      showWorkspace(defaultWorkspaceForRole(getCurrentRole()));
+      showWorkspace('connection');
+      writeOutput('Saved session', 'Login successful. Open Connection and click Save Token to continue.');
       writeOutput('Saved session', 'Login successful.');
     });
   }
@@ -403,10 +403,10 @@ function initAuth() {
 
       if (result.ok && token) {
         saveToken(token);
-        tokenConfirmed = true;
+        tokenConfirmed = false;
         updateSavedSessionPrompt();
         setAuthState(true);
-        showWorkspace(defaultWorkspaceForRole(getCurrentRole()));
+        showWorkspace('connection');
       }
 
       if (!result.ok && loginWith === 'phone' && result.status === 404) {
@@ -1042,14 +1042,10 @@ function initAdminWorkspace() {
 }
 
 function initConnection() {
-  const storedToken = getToken().trim();
-  const tokenToUse = parseTokenPayload(storedToken) ? storedToken : createGuestToken(GUEST_ROLE);
-
-  saveToken(tokenToUse);
-  tokenConfirmed = true;
-  tokenInput.value = tokenToUse;
-  setAuthState(true);
-  showWorkspace(defaultWorkspaceForRole(getCurrentRole()));
+  tokenInput.value = getToken();
+  tokenConfirmed = false;
+  setAuthState(false);
+  showAuthForm('signup');
   updateSavedSessionPrompt();
 
   bindClick('save-token-btn', () => {
