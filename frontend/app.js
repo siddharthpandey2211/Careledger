@@ -23,9 +23,9 @@ const GUEST_ROLE = 'doctor';
 const TOKEN_KEY = 'careledger_token';
 const DEFAULT_WORKSPACE = 'connection';
 const ROLE_WORKSPACES = {
-  patient: ['connection', 'patient'],
-  doctor: ['connection', 'doctor', 'consultations', 'clinics', 'medications'],
-  admin: ['connection', 'admin'],
+  patient: ['patient'],
+  doctor: ['doctor', 'consultations', 'clinics', 'medications'],
+  admin: ['admin'],
 };
 
 function pretty(value) {
@@ -335,8 +335,10 @@ function initAuth() {
       }
 
       tokenConfirmed = false;
+      tokenConfirmed = true;
       setAuthState(true);
-      writeOutput('Saved session', 'Login successful. Open Connection and click Save Token to continue.');
+      showWorkspace(defaultWorkspaceForRole(getCurrentRole()));
+      writeOutput('Saved session', 'Login successful.');
     });
   }
 
@@ -401,10 +403,10 @@ function initAuth() {
 
       if (result.ok && token) {
         saveToken(token);
-        tokenConfirmed = false;
+        tokenConfirmed = true;
         updateSavedSessionPrompt();
         setAuthState(true);
-        showWorkspace('connection');
+        showWorkspace(defaultWorkspaceForRole(getCurrentRole()));
       }
 
       if (!result.ok && loginWith === 'phone' && result.status === 404) {
@@ -1047,7 +1049,7 @@ function initConnection() {
   tokenConfirmed = true;
   tokenInput.value = tokenToUse;
   setAuthState(true);
-  showWorkspace('connection');
+  showWorkspace(defaultWorkspaceForRole(getCurrentRole()));
   updateSavedSessionPrompt();
 
   bindClick('save-token-btn', () => {
