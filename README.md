@@ -8,9 +8,9 @@ The name means:
 
 So CareLedger is meant to be a place for organizing healthcare information in one place.
 
-## Public site
+## What this project is now
 
-This docs site is a static public version that can be hosted on GitHub Pages without a backend, database, or login service.
+This repository is currently set up as a static public website so it can be opened from a normal GitHub Pages link without requiring a backend, database, or login service.
 
 ## What you will see
 
